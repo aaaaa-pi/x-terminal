@@ -1,11 +1,14 @@
 <template>
-  <div class="x-terminal-wrapper">
+  <div class="x-terminal-wrapper" :style="wrapperStyle">
     <div class="x-terminal" :style="mainStyle">
       <a-collapse
         v-model:activeKey="activeKey"
         :bordered="false"
         expand-icon-position="right"
       >
+        <template v-for="(out, index) in OutputList" :key="index">
+          <a-collapse-panel> 1 </a-collapse-panel>
+        </template>
       </a-collapse>
       <div class="terminal-row">
         <a-input
@@ -30,10 +33,12 @@
 </template>
 
 <script setup lang="ts">
+import ContentOutput from "./ContentOutput.vue";
 import { LOCAL_USER } from "../../core/user/userConstant";
 import UserType = User.UserType;
 import OutputType = Xterminal.OutputType;
 import CommandInputType = Xterminal.CommandInputType;
+import { useTerminalConfigStore } from "../../core/terminal/config/terminalConfigStore";
 import { ref, toRefs, computed, StyleValue } from "vue";
 
 interface XterminalProps {
@@ -50,6 +55,8 @@ const props = withDefaults(defineProps<XterminalProps>(), {
 });
 
 const { user } = toRefs(props);
+// 引入终端配置
+const configStore = useTerminalConfigStore();
 const activeKey = ref<number[]>([]);
 // 输出列表
 const OutputList = ref<OutputType[]>([]);
@@ -103,6 +110,17 @@ const mainStyle = computed(() => {
     : {
         height: props.height,
       };
+});
+/***
+ * 终端包装样式
+ */
+const wrapperStyle = computed(() => {
+  const { background } = configStore;
+  const style = {
+    ...mainStyle.value,
+  };
+  style.background = background;
+  return style;
 });
 </script>
 
