@@ -6,8 +6,16 @@
         :bordered="false"
         expand-icon-position="right"
       >
-        <template v-for="(out, index) in OutputList" :key="index">
-          <a-collapse-panel> 1 </a-collapse-panel>
+        <template v-for="(output, index) in OutputList" :key="index">
+          <a-collapse-panel>
+            <div
+              v-for="(result, index) in output?.resultList"
+              :key="index"
+              class="terminal-row"
+            >
+              <content-output :output="result" />
+            </div>
+          </a-collapse-panel>
         </template>
       </a-collapse>
       <div class="terminal-row">
