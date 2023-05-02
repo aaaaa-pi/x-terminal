@@ -1,5 +1,9 @@
 <template>
-  <div class="x-terminal-wrapper" :style="wrapperStyle">
+  <div
+    class="x-terminal-wrapper"
+    :style="wrapperStyle"
+    @click="handleClickWrapper"
+  >
     <div class="x-terminal" :style="mainStyle">
       <a-collapse
         v-model:activeKey="activeKey"
@@ -190,6 +194,22 @@ const wrapperStyle = computed(() => {
   style.background = background;
   return style;
 });
+
+/***
+ * 输入框聚焦
+ */
+const focusInput = () => {
+  commandInputRef.value.focus();
+};
+/***
+ * 当点击空白地方聚焦输入框
+ */
+function handleClickWrapper(event: Event): void {
+  const target = event.target as HTMLElement;
+  if (target?.className === "x-terminal") {
+    focusInput();
+  }
+}
 </script>
 
 <style scoped>
