@@ -4,6 +4,13 @@ declare namespace Xterminal {
    */
   type OutputStatusType = "info" | "success" | "warning" | "error" | "system";
   /***
+   * 命令输入类型
+   */
+  interface CommandInputType {
+    text: string;
+    placeholder?: string;
+  }
+  /***
    * 输出类型
    */
   interface OutputType {
@@ -16,10 +23,11 @@ declare namespace Xterminal {
     collapsible?: boolean;
   }
   /***
-   * 命令输入类型
+   * 命令类型输出
    */
-  interface CommandInputType {
+  interface CommandOutputType extends OutputType {
+    type: "command";
     text: string;
-    placeholder?: string;
+    resultList: OutputType[];
   }
 }
